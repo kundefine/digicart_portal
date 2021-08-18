@@ -1,27 +1,35 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html>
 <head>
+    <title>@yield('title', env('APP_NAME'))</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="_token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="shortcut icon" href="{{ asset('/favicon.ico') }}">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- plugin css -->
+    <link href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
+    <!-- end plugin css -->
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+@stack('plugin-styles')
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<!-- common css -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+    <!-- end common css -->
+
+    @stack('style')
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<body data-base-url="{{url('/')}}">
+<script src="{{ asset('assets/js/spinner.js') }}"></script>
+
+<div id="app">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="left: initial; right: initial; width: 100%">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -58,13 +66,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ route('admin.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -75,9 +83,32 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="main-wrapper" id="app">
+            <div class="page-wrapper" style="margin: initial; width: 100%;">
+                <div class="page-content">
+                    @yield('content')
+                </div>
+                @include('layout.footer')
+            </div>
+
+        </div>
     </div>
+
+
+<!-- base js -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('assets/plugins/feather-icons/feather.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+<!-- end base js -->
+
+<!-- plugin js -->
+@stack('plugin-scripts')
+<!-- end plugin js -->
+
+<!-- common js -->
+<script src="{{ asset('assets/js/template.js') }}"></script>
+<!-- end common js -->
+
+@stack('custom-scripts')
 </body>
 </html>

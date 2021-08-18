@@ -1,11 +1,11 @@
-@extends('layout.master2')
+@extends('layout.app')
 
 @section('title', 'User Registration')
 
 
 @section('content')
-    <div class="page-content d-flex align-items-center justify-content-center">
-        <div class="container">
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -78,5 +78,5 @@
         </div>
     </div>
 </div>
-    </div>
+
 @endsection

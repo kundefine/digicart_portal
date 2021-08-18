@@ -1,10 +1,9 @@
-@extends('layout.master2')
+@extends('layout.app')
 
 @section('title', 'User Login')
 
 @section('content')
-    <div class="page-content d-flex align-items-center justify-content-center">
-        <div class="container">
+    <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -44,10 +43,9 @@
 
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
+                                <div class="form-check form-check-flat form-check-primary">
+                                    <label for="remember" class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
@@ -73,5 +71,5 @@
         </div>
     </div>
 </div>
-    </div>
+
 @endsection

@@ -1,3 +1,4 @@
+@if(auth()->check())
 <nav class="navbar">
   <a href="#" class="sidebar-toggler">
     <i data-feather="menu"></i>
@@ -198,8 +199,8 @@
               <img src="{{ url('https://via.placeholder.com/80x80') }}" alt="">
             </div>
             <div class="info text-center">
-              <p class="name font-weight-bold mb-0">Amiah Burton</p>
-              <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+              <p class="name font-weight-bold mb-0">{{auth()->user()->name}}</p>
+              <p class="email text-muted mb-3">{{auth()->user()->email}}</p>
             </div>
           </div>
           <div class="dropdown-body">
@@ -225,7 +226,12 @@
               <li class="nav-item">
                 <a href="javascript:;" class="nav-link">
                   <i data-feather="log-out"></i>
-                  <span>Log Out</span>
+                  <span onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                  </span>
+                  <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                    @csrf
+                  </form>
                 </a>
               </li>
             </ul>
@@ -235,3 +241,4 @@
     </ul>
   </div>
 </nav>
+@endif

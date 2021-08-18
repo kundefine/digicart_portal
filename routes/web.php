@@ -1,23 +1,19 @@
 <?php
 
+use App\Http\Controllers\Users\User\DashboardController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
+require_once __DIR__ . '/admin/auth_routes.php';
+
+
+
+Route::view('/', 'index');
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(['prefix' => 'email'], function(){
     Route::get('inbox', function () { return view('pages.email.inbox'); });
@@ -115,8 +111,6 @@ Route::get('/clear-cache', function() {
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 
