@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthAdmin\LoginController;
 use App\Http\Controllers\AuthAdmin\RegistrationController;
-use App\Http\Controllers\Users\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,13 +18,6 @@ Route::group([
 
 
 
-// admin dashboard
-Route::group([
-    "prefix" => "systemx",
-    "middleware" => "auth:admin"
-], function() {
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-});
 
 
 

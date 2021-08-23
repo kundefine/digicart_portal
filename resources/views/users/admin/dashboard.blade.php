@@ -439,6 +439,9 @@
 @endpush
 
 @push('custom-scripts')
+    <script>
+        window.syncPermissionUrl = "{{route('syncPermission')}}";
+    </script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 @endpush

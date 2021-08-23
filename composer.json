@@ -11,7 +11,8 @@
         "laravel/framework": "^8.54",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.3"
+        "laravel/ui": "^3.3",
+        "spatie/laravel-permission": "^4.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

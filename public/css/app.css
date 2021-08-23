@@ -25029,3 +25029,13 @@ div.tagsinput span.tag {
 .rtl .wizard > .actions > ul > li {
   float: right;
 }
+
+.btn-outline-secondary {
+  border-color: #e8ebf1;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #e8ebf1;
+  border-color: #e8ebf1;
+}

@@ -455,4 +455,16 @@ $(function() {
   }
   // Monthly sales chart end
 
+
+  // KU Code Start
+  let permissionNames = [];
+  $("[p-name]").each((index, el) => {
+    permissionNames.push(el.getAttribute('p-name'));
+  });
+
+  axios.post(syncPermissionUrl,{permissionNames})
+      .then(res => console.log(res))
+    .catch(err => console.log(err))
+
+
 });
