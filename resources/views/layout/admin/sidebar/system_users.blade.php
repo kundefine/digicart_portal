@@ -36,7 +36,7 @@
     <div class="collapse {{ show_class(['/', '/*'], 'systemx/system_users') }}" id="system_users">
         <ul class="nav sub-menu">
             <li class="nav-item">
-                <a href="{{ route('adminAll') }}" class="nav-link {{ active_class(['/'], 'systemx/system_users') }}"
+                <a href="{{ route('adminIndex') }}" class="nav-link {{ active_class(['/'], 'systemx/system_users') }}"
                    p-name="{{json_encode(SYSTEM_ALL_USERS)}}">All Users</a>
             </li>
             <li class="nav-item">
@@ -46,7 +46,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('role') }}" class="nav-link {{ active_class(['/'], 'systemx/system_users/role') }}"
+                <a href="{{ route('roleIndex') }}" class="nav-link {{ active_class(['/'], 'systemx/system_users/role') }}"
                    p-name="{{json_encode(SYSTEM_ALL_ROLE)}}">All Role</a>
             </li>
             <li class="nav-item">

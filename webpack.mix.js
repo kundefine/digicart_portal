@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
 
+mix.js('resources/js/react/form_generator.js', 'public/js/react/form_generator.js').react();
 
 mix.browserSync({
     proxy: 'http://digicart_portal.test',

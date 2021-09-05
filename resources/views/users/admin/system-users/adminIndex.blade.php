@@ -46,9 +46,16 @@
                                 </td>
                                 <td>
                                     @if($admin->role->name !== get_default_role())
-                                        <a href="{{route('adminShow', ['admin' => $admin])}}" class="">
+                                        <a href="{{route('adminShow', ['admin' => $admin])}}" class="mr-1">
                                             <i data-feather="eye"></i>
                                         </a>
+                                        <form action="{{route('adminDelete', ['admin' => $admin])}}" method="post" class="d-inline-block">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-link">
+                                                <i data-feather="trash"></i>
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
@@ -60,6 +67,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('plugin-scripts')

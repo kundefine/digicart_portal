@@ -22,6 +22,7 @@
       <li class="nav-item nav-category">Admin Panel</li>
 
       @include('layout.admin.sidebar.system_users')
+      @include('layout.admin.sidebar.form_generator')
       @include('layout.admin.sidebar.services')
       @include('layout.admin.sidebar.services_renew')
       @include('layout.admin.sidebar.services_upgrade')

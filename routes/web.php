@@ -8,6 +8,7 @@ require_once __DIR__ . '/admin/auth_routes.php';
 require_once __DIR__ . '/admin/dashboard_routes.php';
 require_once __DIR__ . '/admin/ajax_routes.php';
 require_once __DIR__ . '/admin/system_users_routes.php';
+require_once __DIR__ . '/admin/form_generator_routes.php';
 
 
 // user routes
