@@ -29,11 +29,15 @@
 
   <script src="{{ asset('assets/js/spinner.js') }}"></script>
 
+
+
   <div class="main-wrapper" id="app">
     @include('layout.admin.sidebar')
     <div class="page-wrapper">
       @include('layout.admin.header')
       <div class="page-content">
+        <div id="alert-sections"></div>
+        @include('layout.errors')
         @yield('content')
       </div>
       @include('layout.admin.footer')

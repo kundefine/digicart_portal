@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import Form from './Form'
 import {v4 as uuidv4} from 'uuid';
+import {wind} from "../../../../public/assets/plugins/feather-icons/feather";
+import axios from "axios";
 
 
 
@@ -15,8 +17,25 @@ const FormGenerator = () => {
     let [formGen, setFormGen] = useState({
         name: '',
         uuid: uuidv4(),
-        data: [],
+        data: []
     });
+    let [formSave, setFormSave] = useState(window.formGeneratorStoreUrl ? {type: "create", url: window.formGeneratorStoreUrl} : {type: "update", url: window.formGeneratorUpdateUrl});
+
+
+
+    useEffect(() => {
+        if(formSave.type == 'update') {
+            axios.get(window.formGeneratorAjaxShowUrl).then(({data}) => {
+                setFormGen(() => ({
+                    name: data.name,
+                    uuid: data.uuid,
+                    data: JSON.parse(data.content)
+                }))
+            });
+        }
+    }, []);
+
+
     let [errors, setError] = useState({})
     let errorFn = {
         formGen_Name(name, id) {
@@ -51,7 +70,6 @@ const FormGenerator = () => {
                 }
             }
         },
-
         formInput_Name(id, name) {
             if(name.trim().length == 0) {
                 setError((prevErrors) => {
@@ -140,7 +158,6 @@ const FormGenerator = () => {
                 }
             }
         },
-
         formTextarea_Name(id, name) {
             if(name.trim().length == 0) {
                 setError((prevErrors) => {
@@ -229,7 +246,6 @@ const FormGenerator = () => {
                 }
             }
         },
-
         formSelect_Name(id, name) {
             if(name.trim().length == 0) {
                 setError((prevErrors) => {
@@ -370,7 +386,8 @@ const FormGenerator = () => {
             label: '',
             placeholder: '',
             value: '',
-            type: ''
+            type: '',
+            "class" : ''
         },
         textarea: {
             id: uuidv4(),
@@ -380,7 +397,8 @@ const FormGenerator = () => {
             label: '',
             placeholder: '',
             value: '',
-            type: ''
+            type: '',
+            "class" : ''
         },
         select: {
             id: uuidv4(),
@@ -389,6 +407,20 @@ const FormGenerator = () => {
             name: '',
             label: '',
             options: [],
+            "class" : ''
+        },
+        datepicker : {
+            id: uuidv4(),
+            title: "Datepicker",
+            tagName: 'datepicker',
+            name: '',
+            label: '',
+            placeholder: '',
+            value: '',
+            type: '',
+            "class" : '',
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
         },
     }
     const style = {
@@ -405,6 +437,58 @@ const FormGenerator = () => {
     }
 
 
+
+    const showFormButton = () => {
+        if(!formGen.name.length) {
+            return null;
+        }
+        if(!formGen.data.length) {
+            return null;
+        }
+        if(errors && errors.fields && errors.fields.length) {
+            return null;
+        }
+        return <button type="submit" className="btn btn-primary float-right" onClick={() => saveForm()}>{formSave.type == "update" ? "Update Form" : "Save Form"}</button>
+    }
+    const previewForm = () => {
+        return formGen.data.map((form) => {
+            if(form.tagName == 'input') {
+                return (
+                    <div className="form-group" key={form.id}>
+                        <label htmlFor="">{form.label || form.id}</label>
+                        <input id="" type={form.type || 'text'} defaultValue={form.value} placeholder={form.placeholder} className="form-control" name={form.name || form.id}/>
+                    </div>
+                )
+            } else if(form.tagName == 'textarea') {
+                return (
+                    <div className="form-group" key={form.id}>
+                        <label htmlFor="">{form.label || form.id}</label>
+                        <textarea id="" defaultValue={form.value} placeholder={form.placeholder || form.id} className="form-control" name={form.name || form.id}></textarea>
+                    </div>
+                )
+            } else if(form.tagName == 'select') {
+                return (
+                    <div className="form-group" key={form.id}>
+                        <label htmlFor="">{form.label || form.id}</label>
+                        <select name={form.name || form.id}>
+                            {form.options.map(option => {
+                                return (
+                                    <option defaultValue={option.value} selected={option.isSelected} key={option.id}>{option.text}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                )
+            } else if(form.tagName == 'datepicker') {
+                return (
+                    <div className="form-group" key={form.id}>
+                        <label htmlFor="">{form.label || form.id}</label>
+                        <input id="" type={form.type || 'text'} defaultValue={form.value} placeholder={form.placeholder} className="form-control" name={form.name || form.id}/>
+                    </div>
+                )
+            }
+        });
+    }
     const addForm = (e, type) => {
         let data = formGen.data;
         let newData;
@@ -414,6 +498,8 @@ const FormGenerator = () => {
             newData = fieldData['textarea']
         } else if (type == 'select') {
             newData = fieldData['select']
+        } else if (type == 'datepicker') {
+            newData = fieldData['datepicker']
         }
 
         setFormGen({
@@ -443,38 +529,6 @@ const FormGenerator = () => {
             }
         })
     }
-    const previewForm = () => {
-        return formGen.data.map((form) => {
-           if(form.tagName == 'input') {
-               return (
-                   <div className="form-group" key={form.id}>
-                       <label htmlFor="">{form.label || form.id}</label>
-                       <input id="" type={form.type || 'text'} defaultValue={form.value} placeholder={form.placeholder} className="form-control" name={form.name || form.id}/>
-                   </div>
-               )
-           } else if(form.tagName == 'textarea') {
-               return (
-                   <div className="form-group" key={form.id}>
-                       <label htmlFor="">{form.label || form.id}</label>
-                       <textarea id="" defaultValue={form.value} placeholder={form.placeholder || form.id} className="form-control" name={form.name || form.id}></textarea>
-                   </div>
-               )
-           } else if(form.tagName == 'select') {
-               return (
-                   <div className="form-group" key={form.id}>
-                       <label htmlFor="">{form.label || form.id}</label>
-                       <select name={form.name || form.id} id="">
-                           {form.options.map(option => {
-                               return (
-                                   <option defaultValue={option.value} selected={option.isSelected} key={option.id}>{option.text}</option>
-                               )
-                           })}
-                       </select>
-                   </div>
-               )
-           }
-        });
-    }
     const saveForm = async () => {
         if(!formGen.name.length) {
             alert('Please add form name');
@@ -484,23 +538,23 @@ const FormGenerator = () => {
             alert('Please add some form data');
             return;
         }
-        let res = await window.axios.post(formGeneratorStoreUrl, {formGen});
-        if(res.status == 201 || res.status == 200) {
-            window.location.reload();
+
+        try {
+            let res = await window.axios({
+                method: formSave.type == 'update' ? 'patch' : 'post',
+                url: formSave.url,
+                data: {formGen}
+            });
+            if(res.status == 201 || res.status == 200) {
+                window.location.reload();
+            }
+        } catch (e) {
+            document.getElementById('alert-sections').innerHTML = e.response.data;
         }
+
     }
-    const showFormButton = () => {
-        if(!formGen.name.length) {
-            return null;
-        }
-        if(!formGen.data.length) {
-            return null;
-        }
-        if(errors && errors.fields && errors.fields.length) {
-            return null;
-        }
-        return <button type="submit" className="btn btn-primary float-right" onClick={() => saveForm()}>Save Form</button>
-    }
+
+
 
 
     return (
@@ -522,6 +576,7 @@ const FormGenerator = () => {
                                         <a className="dropdown-item"
                                            onClick={() => addForm(event, 'textarea')}>Textarea</a>
                                         <a className="dropdown-item" onClick={() => addForm(event, 'select')}>Select</a>
+                                        <a className="dropdown-item" onClick={() => addForm(event, 'datepicker')}>Datepicker</a>
                                     </div>
                                 </div>
                             </div>
@@ -534,6 +589,7 @@ const FormGenerator = () => {
                                 className={ hasErrors(`formGen-name-${formGen.uuid}`) ? "form-control form-control-danger" : "form-control" }
                                 type="text"
                                 placeholder="Ex: Domain Form, Hosting Form"
+                                value={formGen.name}
                                 onChange={setName}
                                 onBlur={setName}
                             />

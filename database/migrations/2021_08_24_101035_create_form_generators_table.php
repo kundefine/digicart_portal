@@ -15,10 +15,11 @@ class CreateFormGeneratorsTable extends Migration
     {
         Schema::create('form_generators', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('admin_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->uuid('uuid');
             $table->string('name');
-            $table->longText('content_html')->nullable();
-            $table->json('content_json')->nullable();
+            $table->json('content')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

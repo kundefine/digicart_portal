@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Select from "./Select";
+import Datepicker from "./Datepicker";
 
 const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasErrors}) => {
 
@@ -40,6 +41,9 @@ const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasE
         },
         setValue(value) {
             setForm(prevForm => ({...prevForm, value: value}))
+        },
+        setClass(value) {
+            setForm(prevForm => ({...prevForm, "class" : value}))
         }
     }
     const textareaEvent = {
@@ -56,6 +60,9 @@ const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasE
         },
         setValue(value) {
             setForm(prevForm => ({...prevForm, value: value}))
+        },
+        setClass(value) {
+            setForm(prevForm => ({...prevForm, "class" : value}))
         }
     }
     const selectEvent = {
@@ -73,6 +80,34 @@ const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasE
         setOption(option) {
             setForm(prevForm => ({...prevForm, options: option}))
             errorFn.formSelect_Option(form.id, option)
+        },
+        setClass(value) {
+            setForm(prevForm => ({...prevForm, "class" : value}))
+        }
+    }
+    const datepickerEvent = {
+        setName(name) {
+            setForm(prevForm => ({...prevForm, name: name.trim()}));
+            errorFn.formInput_Name(form.id, name);
+        },
+        setLabel(label) {
+            setForm(prevForm => ({...prevForm, label: label}));
+            errorFn.formInput_Label(form.id, label);
+        },
+        setPlaceholder(placeholder) {
+            setForm(prevForm => ({...prevForm, placeholder: placeholder}))
+        },
+        setValue(value) {
+            setForm(prevForm => ({...prevForm, value: value}))
+        },
+        setClass(value) {
+            setForm(prevForm => ({...prevForm, "class" : value}))
+        },
+        setAltFormat(value) {
+            setForm(prevForm => ({...prevForm, "altFormat" : value}))
+        },
+        setDateFormat(value) {
+            setForm(prevForm => ({...prevForm, "dateFormat" : value}))
         }
     }
 
@@ -81,11 +116,13 @@ const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasE
 
     const renderFormEl = () => {
         if(data.tagName === 'input') {
-            return <Input id={form.id} event={inputEvent} errors={errors} hasErrors={hasErrors} />
+            return <Input id={form.id} event={inputEvent} errors={errors} hasErrors={hasErrors} data={data} />
         } else if (data.tagName === 'textarea') {
-            return <Textarea id={form.id} event={textareaEvent} errors={errors} hasErrors={hasErrors}/>
+            return <Textarea id={form.id} event={textareaEvent} errors={errors} hasErrors={hasErrors} data={data}/>
         } else if(data.tagName === 'select') {
-            return <Select id={form.id} event={selectEvent} errors={errors} hasErrors={hasErrors}/>
+            return <Select id={form.id} event={selectEvent} errors={errors} hasErrors={hasErrors} data={data}/>
+        } else if(data.tagName === 'datepicker') {
+            return <Datepicker id={form.id} event={datepickerEvent} errors={errors} hasErrors={hasErrors} data={data}/>
         }
     }
 

@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import ReactDOM from 'react-dom';
 import {v4 as uuidv4} from 'uuid';
 
-const Option = ({event}) => {
-    let [options, setOptions] = useState([]);
+const Option = ({event, data}) => {
+    let [options, setOptions] = useState(data);
     let [optionText, setOptionText] = useState('');
     let [optionValue, setOptionValue] = useState('');
     let [optionIsSelected, setOptionIsSelected] = useState(false);

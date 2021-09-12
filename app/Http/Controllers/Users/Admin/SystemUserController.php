@@ -95,8 +95,11 @@ class SystemUserController extends Controller
             'guard_name' => 'admin'
         ]);
         $role->givePermissionTo($validData["permissions"]);
-        return redirect()->route('roleIndex');
-
+        return redirect()->route('roleIndex')->with(['success' => [
+            'heading' => "Role Created",
+            'messages' => ["Role has been created successfully"],
+            'autoclose' => 7000
+        ]]);
     }
 
     public function roleUpdate(Role $role, Request $request)

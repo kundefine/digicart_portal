@@ -11,7 +11,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Form Generator</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Create Form Generator</li>
+            <li class="breadcrumb-item active" aria-current="page">Update Form Generator</li>
         </ol>
     </nav>
 
@@ -28,7 +28,14 @@
 
 @push('custom-scripts')
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
-    <script src="{{ asset('assets/plugins/bootstrap-show-password/bootstrap-show-password.min.js') }}"></script>
-    <script>window.formGeneratorStoreUrl = "{{route('formGeneratorStore')}}";</script>
+    <script>
+        window.formGeneratorUpdateUrl = "{{route('formGeneratorUpdate', ['formGenerator' => $formGenerator])}}";
+        window.formGeneratorAjaxShowUrl = "{{route('formGeneratorAjaxShow', ['formGenerator' => $formGenerator])}}";
+        window.formGenerator = {
+            id: {{$formGenerator->id}},
+            name: "{{$formGenerator->name}}",
+            uuid: "{{$formGenerator->uuid}}",
+        };
+    </script>
     <script src="{{ asset('js/react/form_generator.js') }}"></script>
 @endpush
