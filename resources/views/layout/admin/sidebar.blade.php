@@ -24,6 +24,10 @@
       @include('layout.admin.sidebar.system_users')
       @include('layout.admin.sidebar.form_generator')
       @include('layout.admin.sidebar.services')
+      @include('layout.admin.sidebar.sale')
+      @include('layout.admin.sidebar.company')
+
+
       @include('layout.admin.sidebar.services_renew')
       @include('layout.admin.sidebar.services_upgrade')
       @include('layout.admin.sidebar.vault')
@@ -33,6 +37,9 @@
     </ul>
   </div>
 </nav>
+
+
+
 <nav class="settings-sidebar">
   <div class="sidebar-body">
     <a href="#" class="settings-sidebar-toggler">

@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import FormGenerator from "./components/FormGenerator";
+import FormGenerator from "./components/Form/FormGenerator";
 
 
 

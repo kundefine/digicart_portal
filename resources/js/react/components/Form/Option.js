@@ -30,6 +30,11 @@ const Option = ({event, data}) => {
         setOptionIsSelected(false)
 
         event.setOption(newOptions);
+        newOptions.map(option => {
+            if(option.isSelected) {
+                event.setValue(option.value)
+            }
+        })
     }
 
     const renderOptionSelect = () => {
@@ -54,6 +59,14 @@ const Option = ({event, data}) => {
         let newOptions =  options.filter(option => option.id != id)
         setOptions(newOptions)
         event.setOption(newOptions);
+
+        newOptions.map(option => {
+            if(option.isSelected) {
+                event.setValue(option.value)
+            } else {
+                event.setValue("")
+            }
+        })
     }
 
     return (

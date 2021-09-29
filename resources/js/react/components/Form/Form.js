@@ -75,7 +75,7 @@ const Form = ({data, generatorState, deleteForm, errors, setError, errorFn, hasE
             errorFn.formSelect_Label(form.id, label);
         },
         setValue(value) {
-            data.value = value;
+            setForm(prevForm => ({...prevForm, value: value}))
         },
         setOption(option) {
             setForm(prevForm => ({...prevForm, options: option}))

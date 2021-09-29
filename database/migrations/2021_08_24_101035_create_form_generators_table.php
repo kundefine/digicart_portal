@@ -15,7 +15,7 @@ class CreateFormGeneratorsTable extends Migration
     {
         Schema::create('form_generators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admin_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->admin_id();
             $table->uuid('uuid');
             $table->string('name');
             $table->json('content')->nullable();

@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import Form from './Form'
 import {v4 as uuidv4} from 'uuid';
-import {wind} from "../../../../public/assets/plugins/feather-icons/feather";
 import axios from "axios";
+import PrevForm from "./PrevForm";
 
 
 
@@ -386,40 +386,40 @@ const FormGenerator = () => {
             label: '',
             placeholder: '',
             value: '',
-            type: '',
+            type: 'text',
             "class" : ''
         },
         textarea: {
             id: uuidv4(),
             title: "Textarea",
             tagName: 'textarea',
-            name: '',
-            label: '',
-            placeholder: '',
-            value: '',
-            type: '',
-            "class" : ''
+            name: "",
+            label: "",
+            placeholder: "",
+            value: "",
+            "class" : ""
         },
         select: {
             id: uuidv4(),
             title: "Select",
             tagName: 'select',
-            name: '',
-            label: '',
+            name: "",
+            label: "",
             options: [],
-            "class" : ''
+            "class" : "",
+            value: ""
         },
         datepicker : {
             id: uuidv4(),
             title: "Datepicker",
             tagName: 'datepicker',
-            name: '',
-            label: '',
-            placeholder: '',
-            value: '',
-            type: '',
+            name: "",
+            label: "",
+            placeholder: "",
+            value: "",
+            type: 'text',
             "class" : '',
-            altFormat: "F j, Y",
+            altFormat: "Y-m-d",
             dateFormat: "Y-m-d",
         },
     }
@@ -451,43 +451,7 @@ const FormGenerator = () => {
         return <button type="submit" className="btn btn-primary float-right" onClick={() => saveForm()}>{formSave.type == "update" ? "Update Form" : "Save Form"}</button>
     }
     const previewForm = () => {
-        return formGen.data.map((form) => {
-            if(form.tagName == 'input') {
-                return (
-                    <div className="form-group" key={form.id}>
-                        <label htmlFor="">{form.label || form.id}</label>
-                        <input id="" type={form.type || 'text'} defaultValue={form.value} placeholder={form.placeholder} className="form-control" name={form.name || form.id}/>
-                    </div>
-                )
-            } else if(form.tagName == 'textarea') {
-                return (
-                    <div className="form-group" key={form.id}>
-                        <label htmlFor="">{form.label || form.id}</label>
-                        <textarea id="" defaultValue={form.value} placeholder={form.placeholder || form.id} className="form-control" name={form.name || form.id}></textarea>
-                    </div>
-                )
-            } else if(form.tagName == 'select') {
-                return (
-                    <div className="form-group" key={form.id}>
-                        <label htmlFor="">{form.label || form.id}</label>
-                        <select name={form.name || form.id}>
-                            {form.options.map(option => {
-                                return (
-                                    <option defaultValue={option.value} selected={option.isSelected} key={option.id}>{option.text}</option>
-                                )
-                            })}
-                        </select>
-                    </div>
-                )
-            } else if(form.tagName == 'datepicker') {
-                return (
-                    <div className="form-group" key={form.id}>
-                        <label htmlFor="">{form.label || form.id}</label>
-                        <input id="" type={form.type || 'text'} defaultValue={form.value} placeholder={form.placeholder} className="form-control" name={form.name || form.id}/>
-                    </div>
-                )
-            }
-        });
+        return formGen.data.map(form => <PrevForm form={form} key={form.id}/>)
     }
     const addForm = (e, type) => {
         let data = formGen.data;

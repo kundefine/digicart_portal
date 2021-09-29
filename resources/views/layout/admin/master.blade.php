@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>@yield('title', env('APP_NAME'))</title>
   <meta charset="utf-8">
@@ -56,6 +56,9 @@
 
     <!-- common js -->
     <script src="{{ asset('assets/js/template.js') }}"></script>
+    <script>
+      window.companyStoreUrl = "{{route('companyStore')}}"
+    </script>
     <!-- end common js -->
 
     @stack('custom-scripts')

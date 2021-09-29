@@ -16,6 +16,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sourceMaps();
 
 mix.js('resources/js/react/form_generator.js', 'public/js/react/form_generator.js').react();
+mix.js('resources/js/react/sale.js', 'public/js/react/sale.js').react();
+mix.js('resources/js/react/company.js', 'public/js/react/company.js').react();
 
 mix.browserSync({
     proxy: 'http://digicart_portal.test',
