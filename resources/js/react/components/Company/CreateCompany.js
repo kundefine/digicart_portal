@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 import FileUpload from "../FileUpload";
 import axios from "axios";
+import Collapse from "../Collapse";
 
 const CreateCompany = ({storeCompany}) => {
 
@@ -41,8 +42,7 @@ const CreateCompany = ({storeCompany}) => {
 
     return (
         <form onSubmit={(e) => createCompany(e)} encType="multipart/form-data">
-            <div className="card">
-                <div className="card-header">Create Company</div>
+            <Collapse heading="Create New Company" show={false}>
                 <div className="card-body">
                     <div className="form-group">
                         <label htmlFor="name">Name <span className="text-danger">*</span></label>
@@ -70,29 +70,24 @@ const CreateCompany = ({storeCompany}) => {
                         </textarea>
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-6">
-                            <FileUpload
-                                label="Logo"
-                                name="logo"
-                                value={(files) => setCompany(prevState => ({...prevState, logo: files}))}
-                                syncState={company.logo}
-                            />
-                        </div>
-                        <div className="col-md-6">
-                            <FileUpload
-                                label="Water Mark"
-                                name="water_mark"
-                                value={(files) => setCompany(prevState => ({...prevState, water_mark: files}))}
-                                syncState={company.water_mark}
-                            />
-                        </div>
-                    </div>
+                    <FileUpload
+                        label="Logo"
+                        name="logo"
+                        value={(files) => setCompany(prevState => ({...prevState, logo: files}))}
+                        syncState={company.logo}
+                    />
+                    <FileUpload
+                        label="Water Mark"
+                        name="water_mark"
+                        value={(files) => setCompany(prevState => ({...prevState, water_mark: files}))}
+                        syncState={company.water_mark}
+                    />
                 </div>
                 <div className="card-footer clearfix mb-0">
-                    {company.name && company.address ? <button type="submit" className="btn btn-primary btn-sm float-right">Submit</button> : null}
+                    {company.name && company.address ? <button type="submit" className="btn btn-primary btn-sm float-right">Create Company</button> : null}
                 </div>
-            </div>
+            </Collapse>
+
         </form>
     )
 }

@@ -26,6 +26,7 @@
       @include('layout.admin.sidebar.services')
       @include('layout.admin.sidebar.sale')
       @include('layout.admin.sidebar.company')
+      @include('layout.admin.sidebar.payment_method')
 
 
       @include('layout.admin.sidebar.services_renew')

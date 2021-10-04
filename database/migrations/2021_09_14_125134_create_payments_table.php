@@ -15,8 +15,10 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('form_generator_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('sale_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->double('amount');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

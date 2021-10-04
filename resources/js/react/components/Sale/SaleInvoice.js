@@ -46,17 +46,21 @@ class SaleInvoice extends React.Component{
 
         return (
             <div>
-                <div className="print-page-header">
-                    <div className="row align-items-center mb-5">
-                        <div className="col-md-6">
-                            <img src={company.logo_url} alt=""/>
+                {
+                    Object.keys(company).length > 0 ?
+                    <div className="print-page-header">
+                        <div className="row align-items-center mb-5">
+                            <div className="col-md-6">
+                                <img src={company.logo_url} alt=""/>
+                            </div>
+                            <div className="col-md-6">
+                                <h3 className="text-right">{company.name}</h3>
+                                <p className="text-right">{company.address}</p>
+                            </div>
                         </div>
-                        <div className="col-md-6">
-                            <h3 className="text-right">{company.name}</h3>
-                            <p className="text-right">{company.address}</p>
-                        </div>
-                    </div>
-                </div>
+                    </div> : null
+                }
+
 
                 <div className="water-mark" style={waterMark}></div>
 

@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormGenerator;
+use App\Models\Payment;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 
 class ExampleController extends Controller
 {
     public function exampleGet()
     {
-//        return FormGenerator::find(3)->printHtml();
+        return PaymentMethod::with('form')->get()->dd();
     }
 
     public function examplePost(Request $request)
     {
-        return dd($request->all());
+
     }
 
     public function exampleAuth()

@@ -38,6 +38,7 @@
         window.customerCreateAjaxUrl = "{{route('customerCreateAjax')}}";
         window.customerIndexAjaxUrl = "{{route('customerIndexAjax')}}";
         window.companyIndexAjaxUrl = "{{route('companyIndexAjax')}}";
+        window.paymentMethodIndexAjaxUrl = "{{route('paymentMethodIndexAjax')}}";
     </script>
     <script src="{{asset('js/react/sale.js')}}"></script>
 

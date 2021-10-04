@@ -14,6 +14,7 @@ require_once __DIR__ . '/admin/services_routes.php';
 require_once __DIR__ . '/admin/sale_routes.php';
 require_once __DIR__ . '/admin/customer_routes.php';
 require_once __DIR__ . '/admin/company_routes.php';
+require_once __DIR__ . '/admin/payment_method_routes.php';
 
 
 // user routes

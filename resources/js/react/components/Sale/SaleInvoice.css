@@ -41,7 +41,7 @@
 
     @page {
         size: A4;
-        margin: 25mm 25mm 25mm 25mm;
+        margin: 50px;
     }
     .print-page-header {
         position: fixed;
@@ -57,5 +57,10 @@
     }
     .print-page-body {
         margin-top: 100px;
+    }
+    .table-container-print {
+        margin-top: 50px;
+        page-break-before: always;
+        page-break-after: always;
     }
 }

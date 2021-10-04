@@ -16,23 +16,30 @@ class Sale extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sale : {
+            sale: {
                 id: uuidv4(),
                 serial: random(5, 'numeric')
             },
-            saleDetails : [],
+            saleDetails: [],
             services: [],
             infoValue: [],
             serviceLoading: true,
             customerListLoading: true,
             companyListLoading: true,
+            paymentMethodListLoading: true,
             printPreview: false,
             customer: {},
             customerList: [],
             company: {},
             companyList: [],
+            payment: [],
+            paymentMethodList: []
         }
     }
+
+
+
+
     componentDidMount() {
         axios.get(window.servicesAjaxUrl).then(res => this.setState((prevState) => {
             return {
@@ -58,8 +65,22 @@ class Sale extends React.Component {
             }
         }));
 
+        axios.get(window.paymentMethodIndexAjaxUrl).then(res => this.setState((prevState) => {
+            return {
+                ...prevState,
+                paymentMethodList: res.data,
+                paymentMethodListLoading: false
+            }
+        }));
+
     }
+
+
+
+
+
     addService = (e) => {
+        e.preventDefault();
         let {serviceId} = e.target.dataset;
         let service = this.state.services.filter(service => {
             return +serviceId === service.id;
@@ -187,160 +208,205 @@ class Sale extends React.Component {
 
     render() {
         const {serial, id} = this.state.sale;
-        const {saleDetails, serviceLoading, customerListLoading, customerList, customer, company, companyList} = this.state;
+        const {
+            saleDetails,
+            serviceLoading,
+            customerListLoading,
+            customerList,
+            customer,
+            company,
+            companyList,
+            companyListLoading,
+            paymentMethodListLoading,
+            paymentMethodList
+        } = this.state;
 
         return (
-            <div className="row">
-                <div className="col-md-6">
-                    <Loading loading={serviceLoading}>
-                        <div className="card">
-                            <form action="" method="post">
-                                <div className="card-header bg-light">
-                                    Sale Form
-                                </div>
+
+
+            <div className="">
+
+                {/*Customer + Company + payment*/}
+                <div className="row">
+
+                    {/*Customer*/}
+                    <div className="col-md-4">
+                        <Loading loading={customerListLoading}>
+                            <div className="card">
+                                <div className="card-header">Select Customer</div>
                                 <div className="card-body">
                                     <div className="form-group">
-                                        <label htmlFor="serial">Serial</label>
-                                        <input type="text" name="serial" id="serial" className="form-control" value={serial} readOnly />
+                                        <label htmlFor="">Select Customer</label>
+                                        <select name="" id="" className="form-control" value={customer} onChange={(e) => this.setCustomer(e)}>
+                                            <option value={JSON.stringify(company)}>Please Select One</option>
+                                            {customerList.map(customer => <option value={JSON.stringify(customer)} key={customer.id}>{customer.name}</option>)}
+                                        </select>
                                     </div>
+                                    <CreateCustomer storeCustomer={this.addCustomerList} />
+                                </div>
+                            </div>
+                        </Loading>
+                    </div>
 
-                                    {saleDetails.map(saleDetail => {
-                                        return (
-                                            <div className="card mb-2" key={saleDetail.id}>
-                                                <div className="card-header py-0 px-3 d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <button type="button" className="btn btn-icon btn-outline btn-sm ml-2" data-toggle="collapse" data-target={`#collapseExample-${saleDetail.id}`} aria-expanded="false" aria-controls={`collapseExample-${saleDetail.id}`}>
-                                                            <i className="fa fa-chevron-down"></i>
-                                                        </button>
-                                                        <button type="button" className="btn btn-icon btn-outline btn-sm ml-2">
-                                                            <i className="fa fa-trash-o text-danger" onClick={(e) => this.removeDetail(e)} data-sale-detail={saleDetail.id}></i>
-                                                        </button>
-                                                    </div>
-                                                    <table className="table">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td className="py-1">
-                                                                <div className="form-group">
-                                                                    <label className="">Service Name</label>
-                                                                    <div className="">
-                                                                        <input type="text" name="quantity" className="form-control" defaultValue={saleDetail.info.name} disabled={true}/>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-1">
-                                                                <div className="form-group">
-                                                                    <label className="">Quantity</label>
-                                                                    <div className="">
-                                                                        <input type="number" name="quantity" className="form-control" value={saleDetail.quantity} onChange={(e) => this.updateQuantity(e)} data-sale-detail-id={saleDetail.id} />
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-1">
-                                                                <div className="form-group">
-                                                                    <label className="">Price</label>
-                                                                    <div className="">
-                                                                        <input type="number" name="price" className="form-control" value={saleDetail.price} onChange={(e) => this.updatePrice(e)} data-sale-detail-id={saleDetail.id} />
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-1">
-                                                                <div className="form-group">
+                    {/*Company*/}
+                    <div className="col-md-4">
+                        <Loading loading={companyListLoading}>
+                            <div className="card">
+                                <div className="card-header">Select Company</div>
+                                <div className="card-body">
+                                    <div className="form-group">
+                                        <label htmlFor="">Select Company</label>
+                                        <select name="" id="" className="form-control" value={company} onChange={(e) => this.setCompany(e)}>
+                                            <option value={JSON.stringify(company)}>Please Select One</option>
+                                            {companyList.map(company => <option value={JSON.stringify(company)} key={company.id}>{company.name}</option>)}
+                                        </select>
+                                    </div>
+                                    <CreateCompany storeCompany={this.addCompanyList} />
+                                </div>
+                            </div>
+                        </Loading>
+                    </div>
+
+
+                    {/*Payment*/}
+                    <div className="col-md-4">
+                        <Loading loading={paymentMethodListLoading}>
+                            <div className="card">
+                                <div className="card-header">Payment Info</div>
+                                <div className="card-body">
+                                    <div className="form-group">
+                                        <label htmlFor="">Select Payment Method</label>
+                                        <select name="" id="" className="form-control" value={null} onChange={(e) => this.setCompany(e)}>
+                                            <option value={JSON.stringify(company)}>Please Select One</option>
+                                            {paymentMethodList.map(paymentMethod => <option value={JSON.stringify(paymentMethod)} key={paymentMethod.id}>{paymentMethod.name}</option>)}
+                                        </select>
+                                    </div>
+                                    <CreateCompany storeCompany={this.addCompanyList} />
+                                </div>
+                            </div>
+                        </Loading>
+                    </div>
+                </div>
+
+
+
+                {/*Sele Services*/}
+                <div className="row mt-5">
+                    <div className="col-md-12">
+                        <Loading loading={serviceLoading}>
+                            <div className="card">
+                                <form action="" method="post">
+                                    <div className="card-header bg-light">
+                                        Sale Form
+                                    </div>
+                                    <div className="card-body">
+                                        <div className="form-group">
+                                            <label htmlFor="serial">Serial</label>
+                                            <input type="text" name="serial" id="serial" className="form-control" value={serial} readOnly />
+                                        </div>
+
+                                        {saleDetails.map(saleDetail => {
+                                            return (
+                                                <div className="card mb-2" key={saleDetail.id}>
+                                                    <div className="card-header py-0 px-3 d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <button type="button" className="btn btn-icon btn-outline btn-sm ml-2" data-toggle="collapse" data-target={`#collapseExample-${saleDetail.id}`} aria-expanded="false" aria-controls={`collapseExample-${saleDetail.id}`}>
+                                                                <i className="fa fa-chevron-down"></i>
+                                                            </button>
+                                                            <button type="button" className="btn btn-icon btn-outline btn-sm ml-2">
+                                                                <i className="fa fa-trash-o text-danger" onClick={(e) => this.removeDetail(e)} data-sale-detail={saleDetail.id}></i>
+                                                            </button>
+                                                        </div>
+                                                        <table className="table">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td className="py-1">
                                                                     <div className="form-group">
-                                                                        <label className="">Total Price</label>
+                                                                        <label className="">Service Name</label>
                                                                         <div className="">
-                                                                            <input type="text" name="quantity" className="form-control" value={(saleDetail.price * saleDetail.quantity).toFixed(2)} disabled={true}/>
+                                                                            <input type="text" name="quantity" className="form-control" defaultValue={saleDetail.info.name} disabled={true}/>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                                                </td>
+                                                                <td className="py-1">
+                                                                    <div className="form-group">
+                                                                        <label className="">Quantity</label>
+                                                                        <div className="">
+                                                                            <input type="number" name="quantity" className="form-control" value={saleDetail.quantity} onChange={(e) => this.updateQuantity(e)} data-sale-detail-id={saleDetail.id} />
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="py-1">
+                                                                    <div className="form-group">
+                                                                        <label className="">Price</label>
+                                                                        <div className="">
+                                                                            <input type="number" name="price" className="form-control" value={saleDetail.price} onChange={(e) => this.updatePrice(e)} data-sale-detail-id={saleDetail.id} />
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="py-1">
+                                                                    <div className="form-group">
+                                                                        <div className="form-group">
+                                                                            <label className="">Total Price</label>
+                                                                            <div className="">
+                                                                                <input type="text" name="quantity" className="form-control" value={(saleDetail.price * saleDetail.quantity).toFixed(2)} disabled={true}/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
 
+                                                    </div>
+                                                    <div className="card-body collapse show" id={`collapseExample-${saleDetail.id}`}>
+                                                        {saleDetail.info.form.content_json.map(form => <FormStore form={form} key={form.id} id={saleDetail.id} storer={this.setStore}/> )}
+                                                    </div>
                                                 </div>
-                                                <div className="card-body collapse show" id={`collapseExample-${saleDetail.id}`}>
-                                                    {saleDetail.info.form.content_json.map(form => <FormStore form={form} key={form.id} id={saleDetail.id} storer={this.setStore}/> )}
+                                            )
+                                        })}
+                                    </div>
+
+                                    <div className="card-footer service-button">
+                                        <div className="form-group clearfix mb-0">
+                                            <div className="dropdown">
+                                                <button className="btn p-0" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i className="fa fa-plus-circle"></i>
+                                                </button>
+                                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                                    {this.state.services.map(service => (
+                                                        <a className="dropdown-item d-flex align-items-center" key={service.id}><span onClick={this.addService} data-service-id={service.id}>{service.name}</span></a>
+                                                    ))}
                                                 </div>
-                                            </div>
-
-                                        )
-                                    })}
-                                </div>
-
-                                <div className="card-footer service-button">
-                                    <div className="form-group clearfix mb-0">
-                                        <div className="dropdown">
-                                            <button className="btn p-0" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i className="fa fa-plus-circle"></i>
-                                            </button>
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                                {this.state.services.map(service => (
-                                                    <a className="dropdown-item d-flex align-items-center" href="#" key={service.id}><span onClick={this.addService} data-service-id={service.id}>{service.name}</span></a>
-                                                ))}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                    </Loading>
-                </div>
-
-                <div className="col-md-6">
-                    <Loading loading={customerListLoading}>
-                        <div className="card">
-                            <div className="card-header">Customer</div>
-                            <div className="card-body">
-                                <div className="form-group">
-                                    <label htmlFor="">Select Customer</label>
-                                    <select name="" id="" className="form-control" value={customer} onChange={(e) => this.setCustomer(e)}>
-                                        <option value={{}}>Please Select One</option>
-                                        {customerList.map(customer => <option value={JSON.stringify(customer)} key={customer.id}>{customer.name}</option>)}
-                                    </select>
-                                </div>
-                                <CreateCustomer storeCustomer={this.addCustomerList} />
+                                </form>
                             </div>
-                        </div>
-                    </Loading>
-                    <div className="mt-2">
-                        <Collapse heading="Company" show={false}>
-                            <div className="p-3">
-                                <div className="form-group">
-                                    <label htmlFor="">Select Company</label>
-                                    <select name="" id="" className="form-control" value={company} onChange={(e) => this.setCompany(e)}>
-                                        <option value={{}}>Please Select One</option>
-                                        {companyList.map(company => <option value={JSON.stringify(company)} key={company.id}>{company.name}</option>)}
-                                    </select>
-                                </div>
-                                <CreateCompany storeCompany={this.addCompanyList} />
-                            </div>
-
-                        </Collapse>
+                        </Loading>
                     </div>
-
                 </div>
-
-
-
-
-
 
 
                 {/*Invoice print preview*/}
-                <div className={this.state.printPreview ? "print-preview active" : "print-preview" } >
-                    <div className="card">
-                        <button className="btn btn-icon my-0 mx-auto" onClick={() => this.setState(prevState => {return {printPreview: !prevState.printPreview}})}>
-                            <i className={this.state.printPreview ? "fa fa-arrow-down" : "fa fa-arrow-up" }></i>
-                        </button>
-                        <div className="card-header bg-light d-flex justify-content-between align-items-center">
-                            Invoice Preview
-                            <ReactToPrint
-                                trigger={() => {return <button className="btn btn-icon"><i className="fa fa-print"></i></button>}}
-                                content={() => this.componentRef}
-                            />
+                <div className="row mt-5">
+                    <div className="col-md-12">
+                        <div className={this.state.printPreview ? "print-preview active" : "print-preview" } >
+                            <div className="card">
+                                <button className="btn btn-icon my-0 mx-auto" onClick={() => this.setState(prevState => {return {printPreview: !prevState.printPreview}})}>
+                                    <i className={this.state.printPreview ? "fa fa-arrow-down" : "fa fa-arrow-up" }></i>
+                                </button>
+                                <div className="card-header bg-light d-flex justify-content-between align-items-center">
+                                    Invoice Preview
+                                    <ReactToPrint
+                                        trigger={() => {return <button className="btn btn-icon"><i className="fa fa-print"></i></button>}}
+                                        content={() => this.componentRef}
+                                    />
+                                </div>
+                                <SaleInvoice sale={this.state} ref={el => (this.componentRef = el)}/>
+                                <div className="card-footer"></div>
+                            </div>
                         </div>
-                        <SaleInvoice sale={this.state} ref={el => (this.componentRef = el)}/>
-                        <div className="card-footer"></div>
                     </div>
                 </div>
             </div>

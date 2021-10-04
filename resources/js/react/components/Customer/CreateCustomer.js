@@ -56,7 +56,7 @@ const CreateCustomer = ({storeCustomer}) => {
 
 
     return (
-        <Collapse heading="Create Customer" show={false}>
+        <Collapse heading="Create New Customer" show={false}>
             <div className="card-body">
                 <div className="form-group">
                     <label htmlFor="name">Customer Name<span className="text-danger">*</span></label>
