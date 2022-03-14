@@ -34,6 +34,7 @@
     <div class="page-wrapper">
       @include('layout.user.header')
       <div class="page-content">
+        @include('layout.user.errors')
         @yield('content')
       </div>
       @include('layout.user.footer')
